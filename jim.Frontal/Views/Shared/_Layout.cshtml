@@ -31,7 +31,14 @@
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
+        <div id="row_messages" class="row">
+            @Html.Partial("_errorMessages")
+        </div>
+        
+        <div id="body_wrapper">
+            @RenderBody()
+        </div>
+       
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>

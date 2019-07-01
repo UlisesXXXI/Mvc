@@ -381,16 +381,23 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Administracion\AdministracionAreaRegistration.cs" />
     <Compile Include="Areas\Administracion\Controllers\UsuariosController.cs" />
+    <Compile Include="Constantes\MessageManagerConst.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Controllers\BaseController.cs" />
+    <Compile Include="Helpers\Managers\MessageManager.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\Usuarios\ChangeEmailViewModel.cs" />
+    <Compile Include="ViewModel\Usuarios\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModel\Usuarios\newUserViewModel.cs" />
+    <Compile Include="ViewModel\Usuarios\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -406,8 +413,11 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Administracion\Views\web.config" />
     <Content Include="Areas\Administracion\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Administracion\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Administracion\Views\Usuarios\Index.cshtml" />
+    <Content Include="Areas\Administracion\Views\Usuarios\Details.cshtml" />
+    <Content Include="Areas\Administracion\Views\Usuarios\ChangePassword.cshtml" />
+    <Content Include="Areas\Administracion\Views\Usuarios\ChangeEmail.cshtml" />
+    <Content Include="Areas\Administracion\Views\Usuarios\Create.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -453,10 +463,12 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_errorMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Administracion\Models\" />
+    <Folder Include="Areas\Administracion\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
