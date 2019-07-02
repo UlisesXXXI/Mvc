@@ -1,0 +1,53 @@
+﻿@model PagedList.PagedList<jim.Dal.entities.Autentificacion.ApplicationRole>
+@using PagedList.Mvc;
+<br />
+<p>
+    <button class="btn btn-default">@Html.ActionLink("Nuevo", "Create")</button>
+</p>
+
+@using (Html.BeginForm("index", "Roles"))
+{
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                
+                <input type="text" class="form-control" id="busqueda" name="busqueda" placeholder="Buscar por...">
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+
+    </div><!-- /.row -->
+}
+
+<br />
+<table class="table">
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Activo
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Activo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { paginaactual = page, busqueda = ViewBag.busqueda, CantidadPorPagina = 10 }))
