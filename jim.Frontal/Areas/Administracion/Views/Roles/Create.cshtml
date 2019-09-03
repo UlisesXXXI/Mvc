@@ -1,6 +1,6 @@
 ﻿@model jim.Dal.entities.Autentificacion.ApplicationRole
 
-@using (Html.BeginForm("Update","Roles",FormMethod.Post)) 
+@using (Html.BeginForm("Create","Roles",FormMethod.Post)) 
 {
     @Html.AntiForgeryToken()
     
@@ -31,6 +31,9 @@
                 <input type="submit" value="Guardar" class="btn btn-default" />
             </div>
         </div>
+
+      
+        
     </div>
 }
 

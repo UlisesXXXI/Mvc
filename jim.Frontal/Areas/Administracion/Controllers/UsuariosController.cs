@@ -2,29 +2,43 @@
 using jim.Dal.entities.Autentificacion;
 using jim.Frontal.Helpers.Controllers;
 using jim.Frontal.ViewModel.Usuarios;
+using Microsoft.AspNet.Identity;
 using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.ApplicationServices;
 using System.Web.Mvc;
+
 
 namespace jim.Frontal.Areas.Administracion.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class UsuariosController : BaseController
     {
         private UserService _userService;
-        public UsuariosController(UserService userService)
+        private RoleManager<ApplicationRole>  _roleService;
+
+        
+        public UsuariosController(UserService userService,
+                                  RoleManager<ApplicationRole>  rolesService  )
         {
+            this._roleService = rolesService;
             this._userService = userService;
         }
+
+
+
+
         // GET: Administracion/Usuarios
         public ActionResult Index(string busqueda = null, int paginaactual = 1, int CantidadPorPagina=10)
         {
 
             ViewBag.busqueda = busqueda;
-            List<ApplicationUser> listado = null; 
+            List<ApplicationUser> listado = null;
+
             if (!string.IsNullOrEmpty(busqueda)){
                  listado = _userService.Users.Where(x => x.Email.Contains(busqueda) || x.UserName.Contains(busqueda)).ToList();
             }
@@ -33,7 +47,7 @@ namespace jim.Frontal.Areas.Administracion.Controllers
                 listado = _userService.Users.ToList();
             }
 
-            //PagedList.IPagedList paginador = new PagedList.PagedList<ApplicationUser>(listado, paginaactual, CantidadPorPagina);
+           
             var paginado = listado.ToPagedList(paginaactual, CantidadPorPagina);
            
             
@@ -53,47 +67,78 @@ namespace jim.Frontal.Areas.Administracion.Controllers
 
             
             UserViewModel usuarioVm = new UserViewModel(usuario);
+            usuarioVm.AllRoles = _roleService.Roles.ToList();
+            usuarioVm.RolesUsuario = _userService.GetRoles(usuario.Id).ToList();
             return View(usuarioVm);
         }
 
         // GET: Administracion/Usuarios/Create
-        public ActionResult Create(newUserViewModel user)
+        public ActionResult Create()
         {
-            if (user == null) user = new newUserViewModel();
+            var vm = new newUserViewModel();
+            var roles = _roleService.Roles;
+            vm.ListaDeRoles = new List<RolesDeUsuarioViewModel>();
+            foreach (var rol in roles)
+            {
+                vm.ListaDeRoles.Add(new RolesDeUsuarioViewModel() { Checked = false, NombreRol = rol.Name });
+            }
 
-            return View(user);
+            return View(vm);
         }
 
         // POST: Administracion/Usuarios/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Insert(newUserViewModel user)
+        public async Task<ActionResult> Create(newUserViewModel user)
         {
-            try
+
+            if (ModelState.IsValid)
             {
-                var resultado = await _userService.CreateAsync(new ApplicationUser { Email = user.Email, UserName = user.Email }, user.Password);
-                if (resultado.Succeeded)
+
+                if(user.UsuariosChequeados != null && user.UsuariosChequeados.Count > 0)
                 {
-                    var usuario = await _userService.FindByEmailAsync(user.Email);
-                    AddMessage("Usuario Creado correctamente", Helpers.Managers.MessageType.Normal);
-                    return RedirectToAction("Details",new { id = usuario.Id });
+
+                    try
+                    {
+                        var resultado = await _userService.CreateAsync(new ApplicationUser { Email = user.Email, UserName = user.UserName }, user.Password);
+                        if (resultado.Succeeded)
+                        {
+                            var usuario = await _userService.FindByEmailAsync(user.Email);
+                            _userService.AddToRoles(usuario.Id, user.UsuariosChequeados.ToArray());
+                            AddMessage("Usuario Creado correctamente", Helpers.Managers.MessageType.Normal);
+                            return RedirectToAction("Details", new { id = usuario.Id });
+                        }
+                        foreach (var e in resultado.Errors)
+                        {
+                            AddMessage(e, Helpers.Managers.MessageType.Error);
+                        }
+
+
+
+                    }
+                    catch
+                    {
+                        AddMessage("Hubo un error al crear el usuario", Helpers.Managers.MessageType.Error);
+
+                    }
                 }
-                foreach (var e in resultado.Errors)
+                else
                 {
-                    AddMessage(e, Helpers.Managers.MessageType.Error);
+                    AddMessage("Debe seleccionar un role", Helpers.Managers.MessageType.Error);
                 }
 
-                
-                
+
             }
-            catch
-            {
-                AddMessage("Hubo un error al crear el usuario", Helpers.Managers.MessageType.Error);
-                
-            }
+            
             user.Password = "";
             user.RePassword = "";
-            return RedirectToAction("Create", user);
+            var roles = _roleService.Roles;
+            user.ListaDeRoles = new List<RolesDeUsuarioViewModel>();
+            foreach (var rol in roles)
+            {
+                user.ListaDeRoles.Add(new RolesDeUsuarioViewModel() { Checked = false, NombreRol = rol.Name });
+            }
+            return View("Create", user);
         }
 
         // GET: Administracion/Usuarios/Edit/5
@@ -161,8 +206,6 @@ namespace jim.Frontal.Areas.Administracion.Controllers
             return RedirectToAction("Details","Usuarios",new { id = profile.Id });
         }
 
-      
-
         public ActionResult ChangeEmail(string id, string email)
         {
             return null;
@@ -195,6 +238,7 @@ namespace jim.Frontal.Areas.Administracion.Controllers
 
             return View(vm);
         }
+
         public ActionResult ChangeTwoFactorAutentification(string id)
         {
             return null;

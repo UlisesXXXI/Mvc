@@ -18,6 +18,11 @@ namespace jim.Bll.Autentificacion
         {
         }
 
+        public void SignIn()
+        {
+            
+        }
+
         public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
         {
             return user.GenerateUserIdentityAsync((UserService)UserManager);

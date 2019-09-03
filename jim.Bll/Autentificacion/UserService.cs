@@ -21,7 +21,10 @@ namespace jim.Bll.Autentificacion
             : base(store)
         {
         }
-
+        public static void LogIn(string user, string password) 
+        {
+            
+        }
         public static UserService Create(IdentityFactoryOptions<UserService> options, IOwinContext context)
         {
             var manager = new UserService(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));

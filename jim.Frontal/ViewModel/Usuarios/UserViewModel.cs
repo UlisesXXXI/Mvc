@@ -43,7 +43,18 @@ namespace jim.Frontal.ViewModel.Usuarios
 
         #region Propiedades navegacion
 
+        public ApplicationRole Roles { get; set; }
+
         #endregion
+
+        #region Propiedades Presentacion
+
+        public List<ApplicationRole> AllRoles { get; set; }
+
+        public List<String> RolesUsuario { get; set; }
+
+        #endregion
+
 
 
         #region Metodos Publicos

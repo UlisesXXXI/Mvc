@@ -63,6 +63,10 @@
     <Compile Include="Migrations\201906231724398_nueva propiedad en role.Designer.cs">
       <DependentUpon>201906231724398_nueva propiedad en role.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907241546252_tipo.cs" />
+    <Compile Include="Migrations\201907241546252_tipo.Designer.cs">
+      <DependentUpon>201907241546252_tipo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -85,6 +89,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906231724398_nueva propiedad en role.resx">
       <DependentUpon>201906231724398_nueva propiedad en role.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907241546252_tipo.resx">
+      <DependentUpon>201907241546252_tipo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

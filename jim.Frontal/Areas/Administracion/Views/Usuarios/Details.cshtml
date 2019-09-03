@@ -1,7 +1,7 @@
 ﻿@model jim.Frontal.ViewModel.Usuarios.UserViewModel
 
 <div>
-    <h4>Usuario</h4>
+    <h4>Usuario: @Model.UserName</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -9,17 +9,12 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Email) 
-            @Html.ActionLink("Cambiar","ChangeEmail",new {id = Model.Id })
+            @Html.DisplayFor(model => model.Email)
+            @Html.ActionLink("Cambiar", "ChangeEmail", new { id = Model.Id })
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
+
 
         <dt>
             @Html.DisplayNameFor(model => model.EmailConfirmed)
@@ -70,6 +65,23 @@
         </dd>
 
     </dl>
+
+    <!--Roles-->
+    <h4>Roles</h4>
+    
+        @foreach (var item in Model.AllRoles)
+        {
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"
+                           name="UsuariosChequeados"
+                           value="@item.Name"
+                           @if (@Model.RolesUsuario.Contains(@item.Name)) { <text> checked </text> } /> @item.Name
+                    </label>
+                </div>
+            }
+    
+
 </div>
 <p>
     @Html.ActionLink("Cambiar password", "ChangePassword", new { id = Model.Id })<br/>

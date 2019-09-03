@@ -46,6 +46,9 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,8 +59,11 @@
   <ItemGroup>
     <Compile Include="Autentificacion\ApplicationRole.cs" />
     <Compile Include="Autentificacion\ApplicationUser.cs" />
+    <Compile Include="Comun\Paginacion\PaginacionDtoItems.cs" />
     <Compile Include="Configuraciones\EmailConfiguracion.cs" />
+    <Compile Include="Comun\Paginacion\PaginacionDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tipo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

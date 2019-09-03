@@ -34,11 +34,11 @@
         <div id="row_messages" class="row">
             @Html.Partial("_errorMessages")
         </div>
-        
+
         <div id="body_wrapper">
             @RenderBody()
         </div>
-       
+
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
@@ -47,6 +47,16 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @*@Scripts.Render("~/budles/moment");*@
+    @Scripts.Render("~/bundles/app");
+    
     @RenderSection("scripts", required: false)
+
+    <script>
+        $().ready(function () {
+
+            App.Comun.init();
+        });
+    </script>
 </body>
 </html>
